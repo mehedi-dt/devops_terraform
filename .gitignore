@@ -1,0 +1,30 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+.crash
+.terraform/
+.terraform.lock.hcl
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Variable files (if you store sensitive data)
+*.tfvars
+*.tfvars.json
+
+# Sensitive files
+secrets.auto.tfvars
+*.pem
+*.key
+*.crt
+
+# Ignore plan output
+*.plan
+
+# Ignore provider override folder
+.terraformrc
+terraform.rc
+
+# OS-specific
+.DS_Store
