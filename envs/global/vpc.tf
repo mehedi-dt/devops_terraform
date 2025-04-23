@@ -35,17 +35,16 @@ module "vpc" {
   source = "../../modules/vpc"
   for_each = local.vpc
 
-  vpc_name             = each.value.name
-  env                  = each.value.env
+  vpc_name             = lookup(each.value, "name", each.key)
+  env                  = lookup(each.value, "env", var.env)
+  availability_zone    = lookup(each.value, "availability_zone", ["${var.region}a", "${var.region}b", "${var.region}c"])
   vpc_cidr             = each.value.vpc_cidr
-  availability_zone    = each.value.availability_zone
   public_subnet_cidr   = each.value.public_subnet_cidr
   private_subnet_cidr  = each.value.private_subnet_cidr
-  enable_dns_support   = each.value.enable_dns_support
-  enable_dns_hostnames = each.value.enable_dns_hostnames
-  nat_count = each.value.nat_count
+  nat_count = lookup(each.value, "nat_count", 0)
+  enable_dns_support   = lookup(each.value, "enable_dns_support", true)
+  enable_dns_hostnames = lookup(each.value, "enable_dns_hostnames", true)
 }
-
 output "vpc_id" {
   value = { for k, v in module.vpc : k => v.id }
 }
