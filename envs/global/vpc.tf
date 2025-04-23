@@ -9,6 +9,7 @@ locals {
       private_subnet_cidr  = ["10.2.6.0/23", "10.2.8.0/23", "10.2.10.0/23"]
       enable_dns_support   = true
       enable_dns_hostnames = true
+      nat_count = 1
     }
 
     "vpc-2" = {
@@ -20,6 +21,7 @@ locals {
       private_subnet_cidr  = ["10.3.6.0/23", "10.3.8.0/23", "10.3.10.0/23"]
       enable_dns_support   = true
       enable_dns_hostnames = true
+      nat_count = 0
     }
     
     # .
@@ -41,6 +43,7 @@ module "vpc" {
   private_subnet_cidr  = each.value.private_subnet_cidr
   enable_dns_support   = each.value.enable_dns_support
   enable_dns_hostnames = each.value.enable_dns_hostnames
+  nat_count = each.value.nat_count
 }
 
 output "vpc_id" {
