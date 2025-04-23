@@ -107,3 +107,10 @@ resource "aws_route_table" "private" {
 
   depends_on = [ aws_internet_gateway.igw ]
 }
+
+# Attaching NAT route table for subnets
+resource "aws_route_table_association" "pivate_association" {
+    count = length(var.private_subnet_cidr)
+    subnet_id = aws_subnet.private[count.index].id
+    route_table_id = aws_route_table.private[count.index].id
+}
