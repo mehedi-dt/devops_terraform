@@ -74,3 +74,17 @@ resource "aws_eip" "eip" {
     Env = var.env
   }
 }
+
+# NAT
+resource "aws_nat_gateway" "nat" {
+  count = var.nat_count > 0 ? var.nat_count : 0
+  allocation_id = aws_eip.eip[count.index].id
+  subnet_id = aws_subnet.public[count.index].id # subnet where the NAT will reside.
+
+  tags = {
+      Name = "${var.vpc_name}-nat-${var.availability_zone[count.index]}"
+      Env = var.env
+    }
+  
+  depends_on = [ aws_internet_gateway.igw ]
+}
