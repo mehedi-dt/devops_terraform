@@ -31,3 +31,8 @@ variable "enable_dns_support" {
 variable "enable_dns_hostnames" {
   type = bool
 }
+
+variable "nat_count" {
+  type = number
+  default = 0
+}
