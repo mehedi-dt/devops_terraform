@@ -23,7 +23,6 @@ locals {
       enable_dns_support   = true
       enable_dns_hostnames = true
       nat_count = 0
-      s3_gateway = false
     }
     
     # .
