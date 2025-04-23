@@ -114,3 +114,18 @@ resource "aws_route_table_association" "pivate_association" {
     subnet_id = aws_subnet.private[count.index].id
     route_table_id = aws_route_table.private[count.index].id
 }
+
+# S3 Gateway
+resource "aws_vpc_endpoint" "s3" {
+  count = var.s3_gateway ? 1 : 0
+
+  vpc_id = aws_vpc.vpc.id
+  route_table_ids = aws_route_table.private[*].id
+  service_name = "com.amazonaws.${var.region}.s3" # prefix for s3 gateway from the prifix list
+  vpc_endpoint_type = "Gateway"
+
+  tags = {
+    "Name" = "${var.vpc_name}-s3-endpoint"
+    "Env" = var.env
+  }
+}

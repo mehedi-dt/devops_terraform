@@ -36,3 +36,12 @@ variable "nat_count" {
   type = number
   default = 0
 }
+
+variable "s3_gateway" {
+  type = bool
+  default = false
+}
+
+variable "region" {
+  type = string
+}
