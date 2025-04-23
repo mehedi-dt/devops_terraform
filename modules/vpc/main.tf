@@ -88,3 +88,22 @@ resource "aws_nat_gateway" "nat" {
   
   depends_on = [ aws_internet_gateway.igw ]
 }
+
+# Creating route table with NAT for private subnets
+resource "aws_route_table" "private" {
+  count = var.nat_count > 0 ? length(var.private_subnet_cidr) : 0
+  
+  vpc_id = aws_vpc.vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0" # Destination: route all IPv4 traffic (default route)
+    gateway_id = aws_nat_gateway.nat[count.index % var.nat_count].id # Target: use the NAT Gateway as the target. It makes it only outgoing.
+  }
+
+  tags = {
+    "Name" = "${var.vpc_name}-rt-private${count.index + 1}-${var.availability_zone[count.index]}"
+    "Env" = var.env
+  }
+
+  depends_on = [ aws_internet_gateway.igw ]
+}
