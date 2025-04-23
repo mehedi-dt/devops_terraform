@@ -64,10 +64,13 @@ resource "aws_route_table_association" "public_association" {
     route_table_id = aws_route_table.public.id
 }
 
-# resource "aws_route_table" "private" {
-#     vpc_id = aws_vpc.vpc.id
+# EIP for NAT
+resource "aws_eip" "eip" {
+  count = var.nat_count > 0 ? var.nat_count : 0
+  domain = "vpc"
 
-#     tags = {
-#       Name = "${var.vpc_name}-private-rt"
-#     }
-# }
+  tags = {
+    Name = "${var.vpc_name}-nat-${var.availability_zone[count.index]}-ip"
+    Env = var.env
+  }
+}
