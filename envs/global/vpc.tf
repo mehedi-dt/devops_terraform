@@ -10,6 +10,7 @@ locals {
       enable_dns_support   = true
       enable_dns_hostnames = true
       nat_count = 1
+      s3_gateway = true
     }
 
     "vpc-2" = {
@@ -22,6 +23,7 @@ locals {
       enable_dns_support   = true
       enable_dns_hostnames = true
       nat_count = 0
+      s3_gateway = false
     }
     
     # .
@@ -44,6 +46,8 @@ module "vpc" {
   nat_count = lookup(each.value, "nat_count", 0)
   enable_dns_support   = lookup(each.value, "enable_dns_support", true)
   enable_dns_hostnames = lookup(each.value, "enable_dns_hostnames", true)
+  s3_gateway = lookup(each.value, "s3_gateway", false)
+  region = lookup(each.value, "region", var.region)
 }
 output "vpc_id" {
   value = { for k, v in module.vpc : k => v.id }
