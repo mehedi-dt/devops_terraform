@@ -14,14 +14,6 @@ variable "ec2_name" {
   type = string
 }
 
-variable "key_name" {
-  type = string
-}
-
-variable "create_key" {
-  type = bool
-}
-
 variable "env" {
   type = string
 }
@@ -43,6 +35,7 @@ variable "vol_size" {
 
 variable "vol_type" {
   type = string
+  default = "gp3"
 }
 
 variable "vol_tags" {
@@ -63,6 +56,20 @@ variable "sg_ids" {
 ##Ansible
 variable "run_ansible" {
   type = bool
+}
+
+##Users
+variable "default_user_pubkey" {
+  type = string
+}
+
+variable "ssh_users" {
+  type = map(string)
+}
+
+variable "user_data_replace_on_change" {
+  type = bool
+  default = false
 }
 
 ## SG

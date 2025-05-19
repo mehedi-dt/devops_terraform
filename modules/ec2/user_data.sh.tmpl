@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+{
+%{ for user, pubkey in ssh_users }
+# Create user: ${user}
+adduser --disabled-password --gecos "" ${user}
+passwd -d ${user}
+mkdir -p /home/${user}/.ssh
+echo "${pubkey}" > /home/${user}/.ssh/authorized_keys
+chown -R ${user}:${user} /home/${user}/.ssh
+chmod 600 /home/${user}/.ssh/authorized_keys
+usermod -aG sudo ${user}
+%{ endfor }
+} &>> /var/log/user_data.log
