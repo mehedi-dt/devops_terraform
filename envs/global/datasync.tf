@@ -1,5 +1,8 @@
 locals {
     data-sync = {
+        "dest-bucket-1-${var.env}-${var.region}" = {
+            source_bucket = "source-bucket-name"
+        }
     }
 }
 
